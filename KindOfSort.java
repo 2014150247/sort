@@ -24,23 +24,22 @@ public class KindOfSort {
 	
 	void select_sort(int []demo,int number){
 		for(int i=0;i<number-1;i++){
-			int flag=i;
+			int flag=i;//保存最小的数的下标，首先默认为第一个
 			for(int j=i+1;j<number;j++){
 				if(demo[j]<demo[flag])
-					flag=j;
+					flag=j;//向右查找是否有比默认更小的数，如果有，记录下标
 			}
-			if(flag!=i){
+			if(flag!=i){//交换
 				int temp=demo[flag];
 				demo[flag]=demo[i];
 				demo[i]=temp;
-			}
-			
+			}	
 		}
 	}
 	
 	void bubble_sort(int []demo,int number){
 		for(int i=0;i<number;i++){
-			for(int j=0;j<i;j++){
+			for(int j=0;j<i;j++){//比较数组前后两个元素的大小，如果前面的比后面的大就两两交换
 				if(demo[j]>demo[i]){
 					int temp=demo[j];
 					demo[j]=demo[i];
@@ -53,18 +52,18 @@ public class KindOfSort {
 	void merge_sort(int []demo,int var1){
 		int []temp=new int[var1];
 		int left_min,left_max,right_min,right_max,next;
-		for(int i=1;i<var1;i*=2){
-			for(left_min=0;left_min<var1-i;left_min=right_max){
-				right_min=left_max=left_min+i;
+		for(int i=1;i<var1;i*=2){//步长
+			for(left_min=0;left_min<var1-i;left_min=right_max){//将数组分为left，right两部分
+				right_min=left_max=left_min+i;//右边的起始位置
 				right_max=left_max+i;
 				if(right_max>var1)
 					right_max=var1;
 			next=0;
-			while(left_min<left_max&&right_min<right_max)
+			while(left_min<left_max&&right_min<right_max)//从左边右边的数组里的数最小的放进temp数组
 				temp[next++]=demo[left_min]>demo[right_min]?demo[right_min++]:demo[left_min++];
-			while(left_min<left_max)
+			while(left_min<left_max)//把剩下的元素放入temp数组
 				demo[--right_min]=demo[--left_max];
-			while(next>0)
+			while(next>0)//复制回原数组
 				demo[--right_min]=temp[--next];
 			}
 			
@@ -72,34 +71,34 @@ public class KindOfSort {
 	}
 	
 	void quick_sort(int[] demo,int left,int right){
-		int i=left;
-		int j=right;
+		int i=left;//默认最左边的为哨兵1
+		int j=right;//最右边为哨兵2
 		if(left>right)
 		       return;
-		int temp=demo[left];
-		while(i!=j){
-			while(i<j&&demo[j]>=temp) 
+		int temp=demo[left];//以左边哨兵为参照物
+		while(i!=j){//直到ij相遇，一轮排序完成
+			while(i<j&&demo[j]>=temp) //从right往左走
 				j--;
-			if(j>i)
+			if(j>i)//如果找到比参照物小的数，把这个数付给left
 				demo[i]=demo[j];
-			while(i<j&&demo[i]<=temp) 
+			while(i<j&&demo[i]<=temp) //从left往左走
 				i++;
-			if(i<j)
+			if(i<j)//找到比参照物大的数，把这个数付给right
 				demo[j]=demo[i];
 
 		}
-		demo[i]=temp;
-		quick_sort(demo,left,i-1);
-		quick_sort(demo,i+1,right);
+		demo[i]=temp;//排好参照物的位置
+		quick_sort(demo,left,i-1);//排参照物的左边
+		quick_sort(demo,i+1,right);//排参照物的右边
 		
 		
 	}
 	void insert_sort(int[] demo,int number){
 		for(int i=1;i<number;i++){
-			int temp=demo[i];
+			int temp=demo[i];//待插元素
 			int index=i-1;
 			while(index>=0&&temp<demo[index]){
-				demo[index+1]=demo[index];
+				demo[index+1]=demo[index];//大于temp的往后移
 				index--;
 			}
 			demo[index+1]=temp;
@@ -115,8 +114,8 @@ public class KindOfSort {
 		
 		
 		jbtn=new JButton("确定");
-		jcb1=new JComboBox(number);
-		jcb2=new JComboBox(kind);
+		jcb1=new JComboBox(number);//数据规模
+		jcb2=new JComboBox(kind);//排序类别
 		f.getContentPane().setBackground(Color.orange);
 		f.setLayout(new BorderLayout());
 		jp.setLayout(new BorderLayout());
@@ -133,9 +132,9 @@ public class KindOfSort {
 
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				int index1=jcb1.getSelectedIndex();
-				int var1= Integer.parseInt(number[index1]);
-				int index2=jcb2.getSelectedIndex();
+				int index1=jcb1.getSelectedIndex();//数据规模的数在数组的下标
+				int var1= Integer.parseInt(number[index1]);//数据规模大小
+				int index2=jcb2.getSelectedIndex();//算法类别在数组的下标
 				if(jta.getText()!=null){
 					jta.setText("");
 				}
@@ -167,7 +166,7 @@ public class KindOfSort {
 					else if(index2==4){
 						insert_sort(demo,var1);
 					}
-				//	for(int i=0;i<var1;i++){
+				//	for(int i=0;i<var1;i++){//排序后的输出
 				//		jta.append(demo[i]+" ");
 				//	}
 					long endTime=System.nanoTime();
@@ -187,7 +186,7 @@ public class KindOfSort {
 		
 		
 		
-		f.setLocationRelativeTo(null);
+		f.setLocationRelativeTo(null);//窗口位置居中
 		jta.setLineWrap(true);
 		f.validate();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
