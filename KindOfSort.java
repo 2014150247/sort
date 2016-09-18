@@ -2,6 +2,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.FlowLayout;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,13 +14,17 @@ import javax.swing.*;
 public class KindOfSort {
 	JFrame f;
 	JPanel jp;
+	JPanel jp2;
 	JComboBox jcb1;
-	JComboBox jcb2;
+	JCheckBox jcb2;
+	JCheckBox jcb3;
+	JCheckBox jcb4;
+	JCheckBox jcb5;
+	JCheckBox jcb6;
 	JTextArea jta;
 	JButton jbtn;
 	JScrollPane jsp;
 	String[] number={"10","100","1000","10000","100000"};
-	String[] kind={"选择排序","冒泡排序","合并排序","快速排序","插入排序"};
 	
 	
 	void select_sort(int []demo,int number){
@@ -38,9 +43,9 @@ public class KindOfSort {
 	}
 	
 	void bubble_sort(int []demo,int number){
-		for(int i=0;i<number;i++){
-			for(int j=0;j<i;j++){//比较数组前后两个元素的大小，如果前面的比后面的大就两两交换
-				if(demo[j]>demo[i]){
+		for(int i=0;i<number-1;i++){
+			for(int j=i+1;j<number;j++){//比较数组前后两个元素的大小，如果前面的比后面的大就两两交换
+				if(demo[j]<demo[i]){
 					int temp=demo[j];
 					demo[j]=demo[i];
 					demo[i]=temp;
@@ -111,12 +116,18 @@ public class KindOfSort {
 		jp=new JPanel();
 		f=new JFrame();
 		jta=new JTextArea();
+		jp2=new JPanel();
 		
 		
 		jbtn=new JButton("确定");
 		jcb1=new JComboBox(number);//数据规模
-		jcb2=new JComboBox(kind);//排序类别
-		f.getContentPane().setBackground(Color.orange);
+		jcb2=new JCheckBox("选择");//排序类别
+		jcb3=new JCheckBox("冒泡");
+		jcb4=new JCheckBox("合并");
+		jcb5=new JCheckBox("快速");
+		jcb6=new JCheckBox("插入");
+		
+		//f.getContentPane().setBackground(Color.orange);
 		f.setLayout(new BorderLayout());
 		jp.setLayout(new BorderLayout());
 		f.setTitle(title);
@@ -124,7 +135,14 @@ public class KindOfSort {
 		f.setSize(500,500);
 		jp.add(jcb1,BorderLayout.WEST);
 		jp.add(jbtn,BorderLayout.EAST);
-		jp.add(jcb2,BorderLayout.CENTER);
+		jp2.setLayout(new FlowLayout());
+		jp.add(jp2,BorderLayout.CENTER);
+		jp2.add(jcb2,FlowLayout.LEFT);
+		jp2.add(jcb3,FlowLayout.LEFT);
+		jp2.add(jcb4,FlowLayout.LEFT);
+		jp2.add(jcb5,FlowLayout.LEFT);
+		jp2.add(jcb6,FlowLayout.LEFT);
+		
 		f.add(new JScrollPane(jta),BorderLayout.CENTER);
 		f.add(jp,BorderLayout.SOUTH);
 		
@@ -134,13 +152,25 @@ public class KindOfSort {
 				// TODO Auto-generated method stub
 				int index1=jcb1.getSelectedIndex();//数据规模的数在数组的下标
 				int var1= Integer.parseInt(number[index1]);//数据规模大小
-				int index2=jcb2.getSelectedIndex();//算法类别在数组的下标
+				
 				if(jta.getText()!=null){
 					jta.setText("");
 				}
 				int demo[]=new int[var1];
+				int demo2[]=new int[var1];
+				int demo3[]=new int[var1];
+				int demo4[]=new int[var1];
+				int demo5[]=new int[var1];
+				int demo6[]=new int[var1];
+				
 				Random random = new Random();
-				double totalTime=0;
+				double totalTime1=0;
+				double totalTime2=0;
+				double totalTime3=0;
+				double totalTime4=0;
+				double totalTime5=0;
+				
+				
 				
 				for(int group=0;group<20;group++){
 					jta.append(group+1+":"+"\r\n");
@@ -148,35 +178,98 @@ public class KindOfSort {
 					for(int i=0;i<var1;i++){
 						demo[i]=random.nextInt(var1 *5);
 					//	jta.append(demo[i]+" ");
+						demo2[i]=demo[i];
+						demo3[i]=demo[i];
+						demo4[i]=demo[i];
+						demo5[i]=demo[i];
+						demo6[i]=demo[i];
 					}
 					//jta.append("\r\n");
-					long startTime=System.nanoTime();
-					if(index2==0){
-						select_sort(demo,var1);
+					
+					
+					if(jcb2.isSelected()==true){
+						long startTime=System.nanoTime();
+						select_sort(demo2,var1);
+						long endTime=System.nanoTime();
+						totalTime1+=(endTime-startTime)/1000000.0;
+						
+					//	for(int i=0;i<var1;i++){//排序后的输出
+					//		jta.append(demo2[i]+" ");
+					//	}
+							
+						jta.append("选择排序："+(endTime-startTime)/1000000.0+"ms"+"\r\n");
+							
 					}
-					else if(index2==1){
-						bubble_sort(demo,var1);
+					 if(jcb3.isSelected()==true){
+						long startTime=System.nanoTime();
+						bubble_sort(demo3,var1);
+						long endTime=System.nanoTime();
+						totalTime2+=(endTime-startTime)/1000000.0;
+
+					//	for(int i=0;i<var1;i++){//排序后的输出
+					//		jta.append(demo3[i]+" ");
+					//	}
+							
+						jta.append("冒泡排序："+(endTime-startTime)/1000000.0+"ms"+"\r\n");
+						
 					}
-					else if(index2==2){
-						merge_sort(demo,var1);
+					 if(jcb4.isSelected()==true){
+						long startTime=System.nanoTime();
+						merge_sort(demo4,var1);
+						long endTime=System.nanoTime();
+						totalTime3+=(endTime-startTime)/1000000.0;
+						
+					//	for(int i=0;i<var1;i++){//排序后的输出
+					//		jta.append(demo4[i]+" ");
+					//	}
+						jta.append("合并排序："+(endTime-startTime)/1000000.0+"ms"+"\r\n");
+						
+					
 					}
-					else if(index2==3){
-						quick_sort(demo,0,var1-1);
+					 if(jcb5.isSelected()==true){
+						long startTime=System.nanoTime();
+						quick_sort(demo5,0,var1-1);
+						long endTime=System.nanoTime();
+						totalTime4+=(endTime-startTime)/1000000.0;
+					//	for(int i=0;i<var1;i++){//排序后的输出
+					//		jta.append(demo5[i]+" ");
+					//	}
+						jta.append("快速排序："+(endTime-startTime)/1000000.0+"ms"+"\r\n");
+						
+					
 					}
-					else if(index2==4){
-						insert_sort(demo,var1);
+					 if(jcb6.isSelected()==true){
+						long startTime=System.nanoTime();
+						insert_sort(demo6,var1);
+						long endTime=System.nanoTime();
+						totalTime5+=(endTime-startTime)/1000000.0;
+					//	for(int i=0;i<var1;i++){//排序后的输出
+					//		jta.append(demo6[i]+" ");
+					//	}
+				
+						jta.append("插入排序："+(endTime-startTime)/1000000.0+"ms"+"\r\n");
+						
 					}
-				//	for(int i=0;i<var1;i++){//排序后的输出
-				//		jta.append(demo[i]+" ");
-				//	}
-					long endTime=System.nanoTime();
-				//	jta.append("\r\n");
-					jta.append((endTime-startTime)/1000000.0+"ms"+"\r\n");
-					jta.append("-----------------------------------------------------------------------------------------------------"+"\r\n");
-					totalTime+=(endTime-startTime)/1000000.0;
+				
 					
 				}
-				jta.append("平均时间："+totalTime/20.0+"ms"+"\r\n");
+				
+				jta.append("-----------------------------------------------------------------------------------------------------"+"\r\n");
+				if(jcb2.isSelected()==true){
+					jta.append("选择平均时间："+totalTime1/20.0+"ms"+"\r\n");
+				}
+				if(jcb3.isSelected()==true){
+					jta.append("冒泡平均时间："+totalTime2/20.0+"ms"+"\r\n");
+				}
+				if(jcb4.isSelected()==true){
+					jta.append("合并平均时间："+totalTime3/20.0+"ms"+"\r\n");
+				}
+				if(jcb5.isSelected()==true){
+					jta.append("快速平均时间："+totalTime4/20.0+"ms"+"\r\n");
+				}
+				if(jcb6.isSelected()==true){
+					jta.append("插入平均时间："+totalTime5/20.0+"ms"+"\r\n");
+				}
 				
 					
 			}
