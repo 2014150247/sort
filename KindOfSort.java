@@ -44,11 +44,11 @@ public class KindOfSort {
 	
 	void bubble_sort(int []demo,int number){
 		for(int i=0;i<number-1;i++){
-			for(int j=i+1;j<number;j++){//比较数组前后两个元素的大小，如果前面的比后面的大就两两交换
-				if(demo[j]<demo[i]){
-					int temp=demo[j];
-					demo[j]=demo[i];
-					demo[i]=temp;
+			for(int j=0;j<number-1-i;j++){//比较数组前后两个元素的大小，如果前面的比后面的大就两两交换
+				if(demo[j+1]<demo[j]){
+					int temp=demo[j+1];
+					demo[j+1]=demo[j];
+					demo[j]=temp;
 				}
 			}
 		}
