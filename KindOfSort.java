@@ -24,7 +24,7 @@ public class KindOfSort {
 	JTextArea jta;
 	JButton jbtn;
 	JScrollPane jsp;
-	String[] number={"10","100","1000","10000","100000"};
+	String[] number={"10","100","1000","10000","100000","20000","30000","40000","50000"};
 	
 	
 	void select_sort(int []demo,int number){
